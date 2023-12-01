@@ -3,7 +3,7 @@ package main
 import (
   "fmt"
   "os"
-  // "github.com/aleksguac/aoc23go/days"
+  "github.com/aleksguac/aoc23go/days"
 )
 
 func main() {
@@ -16,7 +16,7 @@ func main() {
   pt2 := ""
   switch day {
     case "1":
-    //   pt1, pt2 = days.Day01()
+      pt1, pt2 = days.Day01()
     case "2":
     //   pt1, pt2 = days.Day02()
     case "3":
