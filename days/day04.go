@@ -9,10 +9,10 @@ import (
   "strings"
 )
 
-func add_to_total(winners_per_card *[]int, i int, all_cards *[]int) {
-  *all_cards = append(*all_cards, i)
+func add_to_total(winners_per_card *[]int, i int, n_cards *int) {
+  (*n_cards)++
   for j := i + 1; j <= i + (*winners_per_card)[i]; j++ {
-    add_to_total(winners_per_card, j, all_cards)
+    add_to_total(winners_per_card, j, n_cards)
   }
 }
 
@@ -45,10 +45,10 @@ func Day04() (string, string) {
     p2winnercounts = append(p2winnercounts, n_wins)
   }
 
-  var p2cards []int
+  p2 := 0;
   for i := range p2winnercounts {
-    add_to_total(&p2winnercounts, i, &p2cards)
+    add_to_total(&p2winnercounts, i, &p2)
   }
 
-  return strconv.Itoa(p1), strconv.Itoa(len(p2cards))
+  return strconv.Itoa(p1), strconv.Itoa(p2)
 }
