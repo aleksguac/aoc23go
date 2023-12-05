@@ -24,7 +24,7 @@ func main() {
     case "4":
       pt1, pt2 = days.Day04()
     case "5":
-    //   pt1, pt2 = days.Day05()
+      pt1, pt2 = days.Day05()
     case "6":
     //   pt1, pt2 = days.Day06()
     case "7":
