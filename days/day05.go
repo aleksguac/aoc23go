@@ -30,7 +30,7 @@ func get_gardening_conversions(input []string) [][]Conversion {
     conversions = append(conversions, []Conversion{})
     lines := strings.Split(input[stage], "\n")[1:]
     for i_line := range lines {
-      vals := intlist_from_strlist(strings.Split(lines[i_line], " "))
+      vals := int_list(strings.Split(lines[i_line], " "))
       conversions[stage] = append(conversions[stage], Conversion{vals[1], vals[0], vals[2]})
     }
     slices.SortFunc(conversions[stage], cmpConversion)
@@ -46,16 +46,6 @@ func get_index_between_sources(conversions *[]Conversion, n int) int {
     if (*conversions)[c].source <= n && (c == len(*conversions) - 1 || n < (*conversions)[c+1].source) { return c }
   }
   return -1
-}
-
-func intlist_from_strlist(strlist []string) []int {
-  /* Convert list of strings to list of ints, ignore errors */
-  intlist := make([]int, len(strlist))
-  for i := range strlist {
-    v, _ := strconv.Atoi(strlist[i])
-    intlist[i] = v
-  }
-  return intlist
 }
 
 func day5part1(seeds []int, conversions [][]Conversion) int {
@@ -169,7 +159,7 @@ func Day05() (string, string) {
   input_bytes, _ := io.ReadAll(file)
   input := strings.Split(string(input_bytes), "\n\n")
   
-  seeds := intlist_from_strlist(strings.Split(strings.Split(input[0], ": ")[1], " "))
+  seeds := int_list(strings.Split(strings.Split(input[0], ": ")[1], " "))
   conversions := get_gardening_conversions(input[1:])
  
   return strconv.Itoa(day5part1(seeds, conversions)), strconv.Itoa(day5part2(seeds, conversions))
