@@ -149,9 +149,9 @@ func day5part2(seeds []int, conversions[][]Conversion) int {
     copy(values, next)
   }
   
-  var result_starts []int
-  for v := 0; v < len(values)/2; v++ { result_starts = append(result_starts, values[2*v])}
-  return slices.Min(result_starts)
+  min := values[0]
+  for v := range values { if v % 2 == 0 && values[v] < min { min = values[v] }}
+  return min
 }
 
 func Day05() (string, string) {
