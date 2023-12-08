@@ -21,3 +21,24 @@ func float64_list(strlist []string) []float64 {
   }
   return flist
 }
+
+func gcd(a, b int) int {
+  /* Greatest common divisor */
+  for b != 0 {
+    tmp := b
+    b = a % b
+    a = tmp
+  }
+  return a
+}
+
+func lcm(nums ...int) int {
+  /* Lowest common multiple */
+  if len(nums) == 0 { return 0}
+  if len(nums) == 1 { return nums[0] }
+  result := nums[0] * nums[1] / gcd(nums[0], nums[1])
+  for i := 2; i < len(nums); i++ {
+    result = lcm(result, nums[i])
+  }
+  return result
+}
