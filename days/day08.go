@@ -55,8 +55,7 @@ func Day08() (string, string) {
   current := "AAA"
   p1 := 0
   inst_len := len(instructions)
-  for {
-    if current == "ZZZ" { break }
+  for current != "ZZZ" {
     if instructions[p1 % inst_len] == "R" {
       current = nodes[current].right
     } else {

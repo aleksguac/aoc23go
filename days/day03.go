@@ -14,10 +14,7 @@ func get_whole_value(grid *[][]int, i int, j int) (int, []int) {
   symbol := 0
   j_current := j
   var gears []int
-  for {
-    if j_current >= len((*grid)[i]) { break }
-    if (*grid)[i][j_current] < 0 { break }
-  
+  for j_current < len((*grid)[i]) && (*grid)[i][j_current] >= 0 {
     // get value
     val = val * 10 + (*grid)[i][j_current]
   
