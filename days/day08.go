@@ -21,7 +21,7 @@ func get_loop_indices(current []string, instructions []string, nodes map[string]
   for {
     for i := range current {
       // if final position is reached as instructions run out, this section will loop over forever
-      if current[i][2] == 'Z' && loops[i] == 0 && n % inst_len == 0 {
+      if n % inst_len == 0 && loops[i] == 0 && current[i][2] == 'Z' {
         loops[i] = n
         if !slices.Contains(loops, 0) { return loops }
       }
