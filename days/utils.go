@@ -42,3 +42,7 @@ func lcm(nums ...int) int {
   }
   return result
 }
+
+func XYtoN(x, y, n_cols int) int {
+	return y*n_cols + x
+}
