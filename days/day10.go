@@ -1,11 +1,11 @@
 package days
 
 import (
-	"fmt"
-	"io"
-	"os"
-	"strconv"
-	"strings"
+  "fmt"
+  "io"
+  "os"
+  "strconv"
+  "strings"
 )
 
 type MetalBend int
@@ -28,8 +28,6 @@ const (
 )
 
 type MetalNode struct {
-  x int;
-  y int;
   nodetype MetalBend;
   where LoopState;
   distance int;
@@ -217,7 +215,7 @@ func Day10() (string, string) {
       default:
         continue
       }
-      grid[XYtoN(j, i, len(chars))] = MetalNode{j, i, nodetype, UnknownState, 0, []int{}}
+      grid[XYtoN(j, i, len(chars))] = MetalNode{nodetype, UnknownState, 0, []int{}}
     }
   }
 
