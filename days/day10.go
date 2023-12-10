@@ -19,17 +19,9 @@ const (
   SouthEast
 )
 
-type LoopState int
-const (
-  UnknownState LoopState = iota
-  IsLoop
-  OutsideLoop
-  InsideLoop
-)
-
 type MetalNode struct {
   nodetype MetalBend;
-  where LoopState;
+  isloop bool;
   distance int;
   neighbours []int;
 }
@@ -113,7 +105,7 @@ func get_metal_loop(grid *[]MetalNode, start int, n_cols int) int {
   for (queue_start != queue_end) {
     current := queue[queue_start]
     queue_start++
-    (*grid)[current].where = IsLoop
+    (*grid)[current].isloop = true
     for i := range (*grid)[current].neighbours {
       n_neigh := (*grid)[current].neighbours[i]
       if !visited[n_neigh] {
@@ -129,57 +121,19 @@ func get_metal_loop(grid *[]MetalNode, start int, n_cols int) int {
 
 func get_inside_outside(grid *[]MetalNode, n_cols int) int {
   leftcount := 0
+  total := 0
   for i := range *grid {
     if i % n_cols == 0 { leftcount = 0 }
-    if (*grid)[i].where == UnknownState {
-      if leftcount % 2 == 0 {
-        (*grid)[i].where = OutsideLoop
-      } else {
-        (*grid)[i].where = InsideLoop
-      }
-    } else if (*grid)[i].where == IsLoop {
+    if (*grid)[i].isloop {
       if (*grid)[i].nodetype == Vertical || (*grid)[i].nodetype == SouthEast || (*grid)[i].nodetype == SouthWest {
         leftcount++
       }
+    } else if leftcount % 2 == 1 {
+      total++
     }
   }
 
-  total_in := 0
-  for i := range *grid {
-    if (*grid)[i].where == InsideLoop {
-      total_in++
-    }
-  }
-  return total_in
-}
-
-func draw_metal_loop(grid *[]MetalNode, n_cols int) {
-  for i := range *grid {
-    if i % n_cols == 0 { fmt.Println() }
-    if (*grid)[i].where == IsLoop {
-      switch (*grid)[i].nodetype {
-      case Horizontal:
-        fmt.Print("─")
-      case Vertical:
-        fmt.Print("│")
-      case NorthEast:
-        fmt.Print("└")
-      case NorthWest:
-        fmt.Print("┘")
-      case SouthEast:
-        fmt.Print("┌")
-      case SouthWest:
-        fmt.Print("┐")
-      }
-    } else if (*grid)[i].where == OutsideLoop {
-      fmt.Print(" ")
-    } else if (*grid)[i].where == InsideLoop {
-      fmt.Print(".")
-    } else {
-      fmt.Print("o")
-    }
-  }
-  fmt.Println()
+  return total
 }
 
 func Day10() (string, string) {
@@ -215,7 +169,7 @@ func Day10() (string, string) {
       default:
         continue
       }
-      grid[XYtoN(j, i, len(chars))] = MetalNode{nodetype, UnknownState, 0, []int{}}
+      grid[XYtoN(j, i, len(chars))] = MetalNode{nodetype, false, 0, []int{}}
     }
   }
 
