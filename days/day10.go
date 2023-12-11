@@ -101,7 +101,7 @@ func get_metal_loop(grid *[]MetalNode, start int, n_cols int) int {
   return (*grid)[queue[queue_end-1]].distance
 }
 
-func get_inside_outside(grid *[]MetalNode, n_cols int) int {
+func get_insides(grid *[]MetalNode, n_cols int) int {
   leftcount := 0
   total := 0
   for i := range *grid {
@@ -165,7 +165,7 @@ func Day10() (string, string) {
 
   get_start_type(&grid, start, n_cols)
   p1 := get_metal_loop(&grid, start, n_cols)
-  p2 := get_inside_outside(&grid, n_cols)
+  p2 := get_insides(&grid, n_cols)
 
   return strconv.Itoa(p1), strconv.Itoa(p2)
 }
