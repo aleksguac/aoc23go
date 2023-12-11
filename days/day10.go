@@ -1,7 +1,6 @@
 package days
 
 import (
-  "fmt"
   "io"
   "os"
   "strconv"
@@ -26,7 +25,7 @@ type MetalNode struct {
   neighbours []int;
 }
 
-func get_start_type_and_neighbours(grid *[]MetalNode, n int, n_cols int) {
+func get_start_type(grid *[]MetalNode, n int, n_cols int) {
   dirs := make([]bool, 4) // NESW
   if n / n_cols < len(*grid) / n_cols - 1 && ((*grid)[n+n_cols].nodetype == Vertical ||
                                               (*grid)[n+n_cols].nodetype == NorthEast ||
@@ -70,23 +69,6 @@ func get_start_type_and_neighbours(grid *[]MetalNode, n int, n_cols int) {
   } else if dirs[2] {
     if dirs[3] {
       (*grid)[n].nodetype = SouthWest
-    }
-  }
-
-  for i := range *grid {
-    switch (*grid)[i].nodetype {
-    case Horizontal:
-      (*grid)[i].neighbours = append((*grid)[i].neighbours, []int{i-1, i+1}...)
-    case Vertical:
-      (*grid)[i].neighbours = append((*grid)[i].neighbours, []int{i-n_cols, i+n_cols}...)
-    case NorthEast:
-      (*grid)[i].neighbours = append((*grid)[i].neighbours, []int{i+1, i-n_cols}...)
-    case NorthWest:
-      (*grid)[i].neighbours = append((*grid)[i].neighbours, []int{i-1, i-n_cols}...)
-    case SouthEast:
-      (*grid)[i].neighbours = append((*grid)[i].neighbours, []int{i+1, i+n_cols}...)
-    case SouthWest:
-      (*grid)[i].neighbours = append((*grid)[i].neighbours, []int{i-1, i+n_cols}...)
     }
   }
 }
@@ -148,32 +130,40 @@ func Day10() (string, string) {
     chars := strings.Split(input[i], "")
     for j := range chars {
       var nodetype MetalBend
+      n := XYtoN(j, i, len(chars))
+      var neighbours []int
       switch chars[j] {
       case "|":
         nodetype = Vertical
+        neighbours = []int{n-n_cols, n+n_cols}
       case "-":
         nodetype = Horizontal
+        neighbours = []int{n-1, n+1}
       case "L":
         nodetype = NorthEast
+        neighbours = []int{n-n_cols, n+1}
       case "J":
         nodetype = NorthWest
+        neighbours = []int{n-n_cols, n-1}
       case "7":
         nodetype = SouthWest
+        neighbours = []int{n+n_cols, n-1}
       case "F":
         nodetype = SouthEast
+        neighbours = []int{n+n_cols, n+1}
       case ".":
         nodetype = NoPipe
       case "S":
-        start = XYtoN(j, i, len(chars))
+        start = n
         nodetype = NoPipe
       default:
         continue
       }
-      grid[XYtoN(j, i, len(chars))] = MetalNode{nodetype, false, 0, []int{}}
+      grid[n] = MetalNode{nodetype, false, 0, neighbours}
     }
   }
 
-  get_start_type_and_neighbours(&grid, start, n_cols)
+  get_start_type(&grid, start, n_cols)
   p1 := get_metal_loop(&grid, start, n_cols)
   p2 := get_inside_outside(&grid, n_cols)
 
