@@ -47,3 +47,9 @@ func XYtoN(x, y, n_cols int) int {
   return y*n_cols + x
 }
 
+func any_true(list []bool) bool {
+  for i := range list {
+    if list[i] { return true }
+  }
+  return false
+}
