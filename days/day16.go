@@ -89,7 +89,7 @@ func traverse_mirror_grid(grid [][]string, start TravelPoint) int {
     for j := range visited[i] { visited[i][j] = make([]bool, 4) }
   }
   
-  queue := make([]TravelPoint, n_rows*n_cols)
+  queue := make([]TravelPoint, n_rows*n_cols*4) // all possible points * possible directions
   queue_start := 0
   queue_end := 0
 
